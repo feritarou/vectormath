@@ -6,6 +6,7 @@ module VM
 
   struct Quaternion(T)
     include Tuple4(T)
+    include Comparable(Quaternion)
 
     # =======================================================================================
     # Constructor macro
@@ -103,6 +104,20 @@ module VM
     # :ditto:
     def *(v : Vec3)
       apply_to v
+    end
+
+    # =======================================================================================
+    # Comparison overload
+    # =======================================================================================
+
+    def <=>(other : Quaternion)
+      compare = (real.sign == other.real.sign) ? other.@data : (-other).@data
+
+      case [@data, compare].transpose
+      when .all? { |pair| pair[0] < pair[1] } then -1
+      when .all? { |pair| pair[0] > pair[1] } then +1
+      when .all? { |pair| pair[0] == pair[1] } then 0
+      end
     end
 
     # =======================================================================================
