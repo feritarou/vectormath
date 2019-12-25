@@ -1,0 +1,11 @@
+name: vectormath
+description: |
+  A pure Crystal linear algebra library providing generic vector, matrix, and quaternion structs.
+version: 0.1.0
+
+authors:
+  - mathalaxy <schwarz.f@web.de>
+
+crystal: 0.32.1
+
+license: MIT
