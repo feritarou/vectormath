@@ -1,3 +1,9 @@
+[![GitHub release](https://img.shields.io/github/release/mathalaxy/vectormath.svg)](https://github.com/mathalaxy/vectormath/releases)
+
+[![Build Status](https://travis-ci.org/mathalaxy/vectormath.svg?branch=master)](https://travis-ci.org/mathalaxy/vectormath)
+
+[![Docs](https://img.shields.io/badge/docs-available-brightgreen.svg)](<LINK-TO-YOUR-DOCUMENTATION>)
+
 # vectormath
 
 A pure Crystal linear algebra library providing generic vector, matrix, and quaternion structs.

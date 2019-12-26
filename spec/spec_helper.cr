@@ -1,10 +1,6 @@
 require "spec"
 require "random"
 
-module VM
-  SUPPORTED_DIMENSIONS = 4
-end
-
 RNG = Random.new
 
 module Spec

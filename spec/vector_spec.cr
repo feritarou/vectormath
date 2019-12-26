@@ -58,6 +58,7 @@ module VM
     end
 
     {% if m == 3 %}
+    {% unless scalar == :BigFloat %}
     describe "#cross / #^" do
       it "computes the cross product" do
         a, b = two arbitrary_vec
@@ -73,6 +74,7 @@ module VM
       rescue OverflowError
       end
     end
+    {% end %}
     {% end %}
 
     describe "#project_on!" do

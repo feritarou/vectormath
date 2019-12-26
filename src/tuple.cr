@@ -1,5 +1,9 @@
 require "./scalar"
 
+module VM
+  SUPPORTED_DIMENSIONS = 4
+end
+
 {% for m in 1..VM::SUPPORTED_DIMENSIONS**2 %}
 
 module VM
