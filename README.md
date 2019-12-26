@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mathalaxy/vectormath.svg?branch=master)](https://travis-ci.org/mathalaxy/vectormath)
 
-[![Docs](https://img.shields.io/badge/docs-available-brightgreen.svg)](<LINK-TO-YOUR-DOCUMENTATION>)
+[![Docs](https://img.shields.io/badge/docs-available-brightgreen.svg)](https://mathalaxy.github.io/vectormath/)
 
 # vectormath
 
