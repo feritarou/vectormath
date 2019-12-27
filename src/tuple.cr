@@ -314,11 +314,11 @@ module VM
       @data.to_unsafe
     end
   end
+end
 
-  # Returns the euclidean distance between *from* and *to*, i.e. `(from - to).length`.
-  def distance(from : Tuple{{m}}, to : Tuple{{m}})
-    from.distance_to to
-  end
+# Returns the euclidean distance between *from* and *to*, i.e. `(from - to).length`.
+def distance(from : VM::Tuple{{m}}, to : VM::Tuple{{m}})
+  from.distance_to to
 end
 
 struct Number

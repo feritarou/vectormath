@@ -142,10 +142,10 @@ module VM
   alias Rotation = Quaternion(Float32)
   alias Orientation = Quaternion(Float32)
 
-  struct Number
-    def *(q : Quaternion)
-      q * self
-    end
-  end
+end
 
+struct Number
+  def *(q : VM::Quaternion)
+    q * self
+  end
 end
