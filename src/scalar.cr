@@ -14,7 +14,12 @@ struct {{scalar_type.id}}
     self.new 1
   end
 
-  # =======================================================================================------------
+  # Returns the result of linear interpolation between two values.
+  def self.lerp(a, b, weight) : self
+    (self.one - self.new weight) * self.new(a) + self.new(weight) * self.new(b)
+  end
+
+  # =======================================================================================
 
   {% unless scalar_type == :Float32 || scalar_type == :Float64 %}
   # Always returns `true` for numbers that are no floats.
@@ -30,7 +35,7 @@ struct {{scalar_type.id}}
   end
   {% end %}
 
-  # =======================================================================================------------
+  # =======================================================================================
 
   # Converts `self`, which is expected to be in degrees, to an arc length and returns the result.
   # Example:
@@ -45,7 +50,7 @@ struct {{scalar_type.id}}
   {% end %}
   end
 
-  # =======================================================================================------------
+  # =======================================================================================
 
   # Converts `self`, which is expected to be an arc length, to degrees and returns the result.
   # Example:
@@ -62,7 +67,8 @@ struct {{scalar_type.id}}
 end
 {% end %}
 
-# =======================================================================================------------
+# =======================================================================================
+
 # The following extensions are provided just for completeness to make the generic code less tedious.
 
 module Math
