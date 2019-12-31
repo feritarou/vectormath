@@ -200,10 +200,10 @@ module VM
     end
 
     def <=>(other : Tuple{{m}})
-      case [@data, other.@data].transpose
-      when .all? { |pair| pair[0] < pair[1] } then -1
-      when .all? { |pair| pair[0] > pair[1] } then +1
-      when .all? { |pair| pair[0] == pair[1] } then 0
+      case (0...{{m}})
+      when .all? { |i| @data[i] == other.@data[i] } then 0
+      when .all? { |i| @data[i] < other.@data[i] } then -1
+      when .all? { |i| @data[i] > other.@data[i] } then +1
       end
     end
 
@@ -222,21 +222,20 @@ module VM
     end
 
     # Returns the norm of `self`.
-    # Depending on whether `T` is a "small" floating point type (`Float32` or `Float64`), this function calculates the norm either directly as the square root of `abs2` or indirectly after scaling down or up all components to reach better numerical stability.
+    # Depending on whether `T` is a "small" data type (`Int/Float32/64`), this function calculates the norm either directly as the square root of `abs2` or indirectly after scaling down or up all components to reach better numerical stability.
     def norm
-      if T == Float32 || T == Float64
+      if T == Float32 || T == Float64 || T == Int32 || T == Int64
         e = @data.map { |c| Math.log10(c.abs) }
         χ = 10 ** (e.max.zero? ? e.min : e.max)
         χ = 1 if χ.zero?
-        scaled = self / χ
-        root = Math.sqrt scaled.abs2
+        scaled = @data.map { |c| c / χ }
+        a = scaled.zip(scaled).sum { |t| t[0] * t[1] }
+        root = Math.sqrt a
         result = root * χ
-        # puts "Calculating the norm of #{self} -> e=#{e}, χ=#{χ} -> #{result}"
-        result
+        T.new result
       else
         result = Math.sqrt(abs2)
-        # puts "Calculating the norm of #{self} directly -> #{result}"
-        result
+        T.new result
       end
     end
 

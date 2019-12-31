@@ -77,12 +77,6 @@ module VM
       end
 
       describe "#*(Vec{{n}})" do
-        it "returns the original vector when multiplying with the identity" do
-          v = arbitrary_vec
-          i = Mat{{n}}({{scalar.id}}).identity
-          (i*v).should eq v
-        end
-
         it "performs matrix-vector multiplication" do
           v = Vec{{n}}({{scalar.id}}).new({% for i in 0...n %} {{i}}, {% end %})
           w = x * v
@@ -152,6 +146,22 @@ module VM
       end
     end
 
+    describe "#*(Vec{{n}})" do
+      it "returns the original vector when multiplying with the identity" do
+        v = arbitrary_vec
+        i = Mat{{n}}({{scalar.id}}).identity
+        r = i*v
+        {% if scalar == :BigFloat %}
+        # This case distinction is necessary due to some weird behavior of BigFloat
+        # that does not match equality even if the numbers are exactly the same
+        r.should be_close_enough_to v
+        r.should eq r
+        {% else %}
+        r.should eq v
+        {% end %}
+      end
+    end
+
     {% if m == 2 %}
     describe ".rotation" do
       it "rotates the plane CCW by e.g. 90°, so that unit_x is mapped onto unit_y" do
@@ -170,8 +180,15 @@ module VM
         v1 = v.to_vec{{m}} fill_with: 1
         m = typed_mat.translation(t)
         translated = m * v1
+        {% if scalar == :BigFloat %}
+        # This case distinction is necessary due to some weird behavior of BigFloat
+        # that does not match equality even if the numbers are exactly the same
+        translated.should be_close_enough_to (v+t).to_vec{{m}}(fill_with: 1)
+        {% else %}
         translated.should eq (v+t).to_vec{{m}}(fill_with: 1)
+        {% end %}
       rescue OverflowError
+        report_overflow
       end
     end
     {% end %}

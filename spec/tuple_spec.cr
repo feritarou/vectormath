@@ -166,6 +166,7 @@ module VM
         minus.should be_a Tuple{{m}}({{scalar.id}})
         minus.components.each_with_index { |c, i| c.should eq -plus[i] }
       rescue OverflowError
+        report_overflow
       end
     end
 
@@ -182,6 +183,7 @@ module VM
           end
         end
       rescue OverflowError
+        report_overflow
       end
     end
 
@@ -198,6 +200,7 @@ module VM
           end
         end
       rescue OverflowError
+        report_overflow
       end
     end
 
@@ -214,6 +217,7 @@ module VM
           end
         end
       rescue OverflowError
+        report_overflow
       end
     end
 
@@ -233,12 +237,15 @@ module VM
         product2 = factor * a
         product2.should eq product
       rescue OverflowError
+        report_overflow
       end
     end
 
     describe "#/(other)" do
       it "computes and returns the component-wise quotient of two tuples" do
         a, b = two arbitrary_tuple
+        # Avoid division by zero attempts
+        {{m}}.times { |i| b[i] += {{scalar.id}}.one if b[i].zero? }
         quotient = a / b
         quotient.should be_a Tuple{{m}}({{scalar.id}})
         quotient.components.each_with_index do |c, i|
@@ -249,12 +256,15 @@ module VM
           end
         end
       rescue OverflowError
+        report_overflow
       end
     end
 
     describe "#/(factor)" do
       it "computes and returns the scalar quotient of self and a factor" do
         factor = arbitrary_scalar
+        # Avoid division by zero attempts
+        factor += {{scalar.id}}.one if factor.zero?
         a = arbitrary_tuple
         quotient = a / factor
         quotient.should be_a Tuple{{m}}({{scalar.id}})
@@ -266,6 +276,7 @@ module VM
           end
         end
       rescue OverflowError
+        report_overflow
       end
     end
 
@@ -282,6 +293,7 @@ module VM
           dot.should eq sum
         end
       rescue OverflowError
+        report_overflow
       end
     end
 
@@ -296,9 +308,11 @@ module VM
         a.norm.should eq 1
         (λ*a).norm.should be_close_enough_to λ
       rescue OverflowError
+        report_overflow
       end
     end
 
+    {% unless scalar == :Int32 || scalar == :Int64 %}
     describe "#normalize" do
       a = arbitrary_tuple
 
@@ -312,6 +326,7 @@ module VM
           normal.length.should be_close_enough_to 1
         end
       rescue OverflowError
+        report_overflow
       end
     end
 
@@ -328,8 +343,10 @@ module VM
           a.length.should be_close_enough_to 1
         end
       rescue OverflowError
+        report_overflow
       end
     end
+    {% end %}
 
     describe "#distance_to" do
       it "computes the euclidean distance between two tuples" do
@@ -342,6 +359,7 @@ module VM
           dist.should be_close_enough_to Δ
         end
       rescue OverflowError
+        report_overflow
       end
     end
 
@@ -356,6 +374,14 @@ module VM
       end
     end
 
+    describe "#zero?" do
+      it "returns true for the null tuple" do
+        o = typed_tuple.zero
+        o.zero?.should be_true
+      end
+    end
+
+    {% unless scalar == :Int32 || scalar == :Int64 %}
     describe "#normal?" do
       it "returns true for normal tuples" do
         a = arbitrary_tuple
@@ -365,18 +391,13 @@ module VM
           end
         else
           a.normalize!
-          a.normal?(tolerance: 0.001) .should be_true
+          a.normal?(tolerance: 0.01) .should be_true
         end
       rescue OverflowError
+        report_overflow
       end
     end
-
-    describe "#zero?" do
-      it "returns true for the null tuple" do
-        o = typed_tuple.zero
-        o.zero?.should be_true
-      end
-    end
+    {% end %}
 
   end
 

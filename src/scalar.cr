@@ -39,7 +39,7 @@ struct {{scalar_type.id}}
 
   # Converts `self`, which is expected to be in degrees, to an arc length and returns the result.
   # Example:
-  #     180.degrees # => π (3.141...)
+  #     180.degrees # => Math::PI
   def degrees
   {% if scalar_type == :Float32 %}
     self * Math::PI / 180f32
@@ -54,7 +54,7 @@ struct {{scalar_type.id}}
 
   # Converts `self`, which is expected to be an arc length, to degrees and returns the result.
   # Example:
-  #     (2*π).in_degrees # => 360.0
+  #     (2*Math::PI).in_degrees # => 360.0
   def in_degrees
   {% if scalar_type == :Float32 %}
     self * 180f32 / Math::PI

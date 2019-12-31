@@ -48,6 +48,7 @@ module VM
         d = a.dot b
         c.should eq d if c.finite?
       rescue OverflowError
+        report_overflow
       end
 
       it "returns the correct dot product of (3, 4, 5) and (1, 2, 3): 26" do
@@ -58,7 +59,6 @@ module VM
     end
 
     {% if m == 3 %}
-    {% unless scalar == :BigFloat %}
     describe "#cross / #^" do
       it "computes the cross product" do
         a, b = two arbitrary_vec
@@ -68,13 +68,11 @@ module VM
           c.should eq d
           ac = a * c
           bc = b * c
-          ac.should be_close_enough_to 0
-          bc.should be_close_enough_to 0
+          ac.should be_close 0, c.length / 1_000_000_000
+          bc.should be_close 0, c.length / 1_000_000_000
         end
-      rescue OverflowError
       end
     end
-    {% end %}
     {% end %}
 
     describe "#project_on!" do

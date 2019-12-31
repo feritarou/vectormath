@@ -27,8 +27,6 @@ module VM
     end
 
     {% if m == 3 %}
-    #TODO: Cross product TEST does not pass for BigFloat - there are weird things going on...
-
     # Returns the cross product (exterior product) of `self` and `other`.
     def cross(other : Vec3) : self
       a1,a2,a3 = @data

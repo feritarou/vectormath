@@ -166,8 +166,8 @@ module VM
 
     # Matrix-matrix multiplication
     {% for o in 1..VM::SUPPORTED_DIMENSIONS %}
-    def *(other : Mat{{n}}x{{o}}(U)) forall U
-      Mat{{m}}x{{o}}(T|U).new do |i, j|
+    def *(other : Mat{{n}}x{{o}})
+      Mat{{m}}x{{o}}(T).new do |i, j|
         sum = T.zero
         {{n}}.times do |k|
           sum += @data[{{n}}*i + k] * other.@data[{{o}}*k + j]
@@ -178,8 +178,8 @@ module VM
     {% end %}
 
     # Matrix-vector multiplication
-    def *(vector : Vec{{n}}(U)) forall U
-      Vec{{m}}(T|U).new do |i|
+    def *(vector : Vec{{n}})
+      Vec{{m}}(T).new do |i|
         sum = T.zero
         {{n}}.times do |k|
           sum += @data[{{n}}*i + k] * vector[k]
