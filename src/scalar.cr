@@ -43,10 +43,8 @@ struct {{scalar_type.id}}
   def degrees
   {% if scalar_type == :Float32 %}
     self * Math::PI / 180f32
-  {% elsif scalar_type == :Float64 %}
-    self * Math::PI / 180f64
   {% else %}
-    self.to_f32 * Math::PI / 180f32
+    self * Math::PI / 180
   {% end %}
   end
 
@@ -58,10 +56,8 @@ struct {{scalar_type.id}}
   def in_degrees
   {% if scalar_type == :Float32 %}
     self * 180f32 / Math::PI
-  {% elsif scalar_type == :Float64 %}
-    self * 180f64 / Math::PI
   {% else %}
-    self.to_f32 * 180f32 / Math::PI
+    self * 180 / Math::PI
   {% end %}
   end
 end

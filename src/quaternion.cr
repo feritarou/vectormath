@@ -113,10 +113,10 @@ module VM
     def <=>(other : Quaternion)
       compare = (real.sign == other.real.sign) ? other.@data : (-other).@data
 
-      case [@data, compare].transpose
-      when .all? { |pair| pair[0] < pair[1] } then -1
-      when .all? { |pair| pair[0] > pair[1] } then +1
-      when .all? { |pair| pair[0] == pair[1] } then 0
+      case (0...4)
+      when .all? { |i| @data[i] < compare[i] } then -1
+      when .all? { |i| @data[i] > compare[i] } then +1
+      when .all? { |i| @data[i] == compare[i] } then 0
       end
     end
 
