@@ -1,5 +1,8 @@
 # Vectormath <-> SFML conversion interface.
-# WARNING: Only include this file if CrSFML is installed!
+
+# Don't include this file if CrSFML is unavailable
+{% skip_file if system("find . -path ./lib/crsfml").empty? %}
+
 require "crsfml"
 
 {% for m in 0...VM::SUPPORTED_DIMENSIONS %}
