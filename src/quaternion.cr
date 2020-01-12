@@ -43,15 +43,15 @@ module VM
         lerp(q1, q2, t).normalize
       else
         # Since dot is in range [0, 0.9995], acos is safe
-        α = Math.acos dot        # α = angle between input vectors
-        β = α*t          # β = angle between q1 and result
-        sin_β = Math.sin β     # compute this value only once
-        sin_α = Math.sin α # compute this value only once
+        α = Math.acos dot   # α = angle between input vectors
+        β = α*t             # β = angle between q1 and result
+        sin_β = Math.sin β
+        sin_α = Math.sin α
 
-        s0 = Math.cos(β) - dot * sin_β / sin_α  # == sin(α - β) / sin(α)
-        s1 = sin_β / sin_α
+        s1 = Math.cos(β) - dot * sin_β / sin_α  # == sin(α - β) / sin(α)
+        s2 = sin_β / sin_α
 
-        (s0 * q1) + (s1 * q2)
+        (s1 * q1) + (s2 * q2)
       end
     end
 
@@ -126,8 +126,8 @@ module VM
 
     def to_axis_and_angle
       φ = 2 * Math.acos(w)
-      r = Math.sqrt(1 - w*w)
-      {imag / r, φ}
+      r = imag.norm
+      {(r.zero? ? imag : imag / r), T.new φ}
     end
 
     def to_mat3x3
