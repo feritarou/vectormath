@@ -309,6 +309,18 @@ module VM
       io << "]"
     end
 
+    def humanize(io : IO, *args)
+      io << "["
+      (@data.map &.humanize(*args)).join(", ", io)
+      io << "]"
+    end
+
+    def humanize(*args)
+      String.build do |io|
+        humanize(io, *args)
+      end
+    end
+
     def to_unsafe
       @data.to_unsafe
     end
