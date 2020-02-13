@@ -57,6 +57,17 @@ module VM
       @data = p.@data
     end
 
+    # Computes the relative angle between `self` and some *other_vector*, in arcs.
+    def angle_with(other_vector : Vec{{m}})
+      Math.acos(self.normalize * other_vector.normalize)
+    end
+
+    # Checks if `self` is parallel *to* another vector.
+    def parallel?(to other_vector, tolerance = T.zero)
+       θ = angle_with other_vector
+       θ <= tolerance || (Math::PI - θ.abs) <= tolerance
+    end
+
     # =======================================================================================
     # Dimensional conversions
     # =======================================================================================
@@ -78,7 +89,7 @@ module VM
 
   # Computes the relative angle between two vectors, in arcs.
   def angle_between(a : Vec{{m}}, b : Vec{{m}})
-    Math.acos(a.normalize * b.normalize)
+    a.angle_with b
   end
 
   {% for letter, type in {:f => Float32, :d => Float64, :b => BigFloat, :i => Int32, :u => UInt32} %}
