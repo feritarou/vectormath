@@ -1,8 +1,9 @@
-require "./scalar"
+# This file implements some basic algebraic structure used in all kinds of n-dimensional "tuples" (vectors, quaternions, and matrices).
 
 module VM
   SUPPORTED_DIMENSIONS = 4
 end
+require "./scalar"
 
 {% for m in 1..VM::SUPPORTED_DIMENSIONS**2 %}
 
@@ -13,36 +14,51 @@ module VM
     include Indexable(T)
     include Comparable(Tuple{{m}})
 
+    # =======================================================================================
+    # Instance variables
+    # =======================================================================================
+
     @data : StaticArray(T, {{m}})
 
     # =======================================================================================
-    # Auto-generated constructors for including classes
+    # Auto-generated constructors for including types
     # =======================================================================================
 
     macro included
+
       # The zero {{m}}-tuple.
       def self.zero : self
         self.new T.zero
       end
+
+      # ---------------------------------------------------------------------------------------
 
       # The one {{m}}-tuple.
       def self.one : self
         self.new T.one
       end
 
+      # ---------------------------------------------------------------------------------------
+
       {% for c, n in %i(x y z w) %}
       {% if n < m %}
+
       # The unit {{m}}-tuple in {{c.id}} direction.
       def self.unit_{{c.id}} : self
         self.new { |i| i == {{n}} ? T.one : T.zero }
       end
+
       {% end %}
       {% end %}
 
+      # ---------------------------------------------------------------------------------------
+
       # Returns the result of component-wise linear interpolation between two {{m}}-tuples.
-      def self.lerp(a, b, weight) : self
-        (T.one - T.new weight) * a.as_a(self) + T.new(weight) * b.as_a(self)
+      def self.lerp(a, b, t) : self
+        (T.one - T.new t) * a.as_a(self) + T.new(t) * b.as_a(self)
       end
+
+      # ---------------------------------------------------------------------------------------
 
       # Copy constructor.
       # Since this creates a component-wise copy of *other*, this constructor can be used to cast between {{m}}-tuples of different underlying number types.
@@ -50,25 +66,35 @@ module VM
         @data = StaticArray(T, {{m}}).new { |i| T.new(other[i]) }
       end
 
+      # ---------------------------------------------------------------------------------------
+
       # Creates a {{m}}-tuple holding the same *value* in each component.
       def initialize(value = T.zero)
         @data = StaticArray(T, {{m}}).new T.new(value)
       end
+
+      # ---------------------------------------------------------------------------------------
 
       # Creates a {{m}}-tuple from a *list* of its components.
       def initialize(*list : U) forall U
         @data = StaticArray(T, {{m}}).new { |i| T.new(list[i]) }
       end
 
+      # ---------------------------------------------------------------------------------------
+
       # Creates a {{m}}-tuple by calling a block for each index, initializing the respective component with the returned value.
       def initialize(&block)
         @data = StaticArray(T, {{m}}).new { |i| T.new(yield i) }
       end
 
+      # ---------------------------------------------------------------------------------------
+
       # Creates a {{m}}-tuple from a `StaticArray`.
       def initialize(arr : StaticArray(T, {{m}}))
         @data = arr
       end
+
+      # ---------------------------------------------------------------------------------------
 
       # Creates a {{m}}-tuple from an `Array` which is expected to be of size {{m}}.
       def initialize(arr : Array(T))
@@ -85,15 +111,24 @@ module VM
       @data[i]
     end
 
+    # ---------------------------------------------------------------------------------------
+
     # Sets the (i+1)-th component of the {{m}}-tuple.
     def []=(i, value)
       @data[i] = value
     end
 
-    # Returns all components of the {{m}}-tuple as a `StaticArray`.
+    # ---------------------------------------------------------------------------------------
+
+    # Returns all components of the {{m}}-tuple as a `StaticArray(T, {{m}})`.
     def components
       @data
     end
+
+    # ---------------------------------------------------------------------------------------
+
+    # Implement GLSL-like "swizzling" components access through accessor methods:
+    # E.g., get a Vec2 containing the z and x components of a Vec3 by calling `some_vec.zx`
 
     {% for c1, i1 in %w(x y z w) %}
       {% if i1 < m %}
@@ -143,25 +178,35 @@ module VM
       self.class.new { |i| -@data.unsafe_fetch(i) }
     end
 
+    # ---------------------------------------------------------------------------------------
+
     # Returns the "sum" {{m}}-tuple by adding to each component the respective one of *other*.
     def +(other : Tuple{{m}}) : Tuple{{m}}
       self.class.new { |i| @data.unsafe_fetch(i) + other.@data.unsafe_fetch(i) }
     end
+
+    # ---------------------------------------------------------------------------------------
 
     # Returns the "difference" {{m}}-tuple by subtracting from each component the respective one of *other*.
     def -(other : Tuple{{m}}) : Tuple{{m}}
       self.class.new { |i| @data.unsafe_fetch(i) - other.@data.unsafe_fetch(i) }
     end
 
+    # ---------------------------------------------------------------------------------------
+
     # Returns the "product" {{m}}-tuple by multiplying each component with the respective one of *other*.
     def *(other : Tuple{{m}}) : Tuple{{m}}
       self.class.new { |i| T.new @data.unsafe_fetch(i) * other.@data.unsafe_fetch(i) }
     end
 
+    # ---------------------------------------------------------------------------------------
+
     # Returns the "scaled" {{m}}-tuple by multiplying each component with some *factor*.
     def *(factor) : Tuple{{m}}
       self.class.new { |i| T.new @data.unsafe_fetch(i) * factor }
     end
+
+    # ---------------------------------------------------------------------------------------
 
     # Returns the "quotient" {{m}}-tuple by dividing each component by the respective one of *other*.
     def /(other : Tuple{{m}}) : Tuple{{m}}
@@ -171,11 +216,15 @@ module VM
       self.class.new { |i| T.new @data.unsafe_fetch(i) / other.@data.unsafe_fetch(i) }
     end
 
+    # ---------------------------------------------------------------------------------------
+
     # Returns the "scaled" {{m}}-tuple by dividing each component by some *factor*.
     def /(factor) : Tuple{{m}}
       raise DivisionByZeroError.new if factor.zero?
       self.class.new { |i| T.new @data.unsafe_fetch(i) / factor }
     end
+
+    # ---------------------------------------------------------------------------------------
 
     # Returns the dot product (inner product) of `self` and `other`.
     def dot(other : self)
@@ -191,13 +240,19 @@ module VM
       { |i| yield @data.unsafe_fetch(i) }
     end
 
+    # ---------------------------------------------------------------------------------------
+
     def each
       @data.each
     end
 
+    # ---------------------------------------------------------------------------------------
+
     def unsafe_fetch(index : Int)
       @data.unsafe_fetch(index)
     end
+
+    # ---------------------------------------------------------------------------------------
 
     def <=>(other : Tuple{{m}})
       case (0...{{m}})
@@ -210,16 +265,6 @@ module VM
     # =======================================================================================
     # Norm and normalization
     # =======================================================================================
-
-    # Returns the norm of `self` (square root of `abs2`).
-    def abs
-      norm
-    end
-
-    # Returns the dot product (inner product) of `self` with itself.
-    def abs2
-      self.dot self
-    end
 
     # Returns the norm of `self`.
     # Depending on whether `T` is a "small" data type (`Int/Float32/64`), this function calculates the norm either directly as the square root of `abs2` or indirectly after scaling down or up all components to reach better numerical stability.
@@ -239,10 +284,28 @@ module VM
       end
     end
 
+    # ---------------------------------------------------------------------------------------
+
     # :ditto
     def length
       norm
     end
+
+    # ---------------------------------------------------------------------------------------
+
+    # :ditto
+    def abs
+      norm
+    end
+
+    # ---------------------------------------------------------------------------------------
+
+    # Returns the dot product (inner product) of `self` with itself.
+    def abs2
+      self.dot self
+    end
+
+    # ---------------------------------------------------------------------------------------
 
     # Returns the "normalization" of `self`, i.e. `self` divided by its `norm`.
     # Raises a `DivisionByZeroError` if `self` is the null vector.
@@ -260,6 +323,8 @@ module VM
       (self / 1e6).normalize
     end
 
+    # ---------------------------------------------------------------------------------------
+
     # Replaces `self` with its "normalization", i.e. `self` divided by its `norm`.
     # Raises a `DivisionByZeroError` if `self` is the null vector.
     def normalize!
@@ -268,6 +333,8 @@ module VM
       @data = v.@data
       self
     end
+
+    # ---------------------------------------------------------------------------------------
 
     # Returns the euclidean distance between `self` and *other*, i.e. `(self - other).length`.
     def distance_to(other)
@@ -283,15 +350,21 @@ module VM
       components.all? &.finite?
     end
 
+    # ---------------------------------------------------------------------------------------
+
     # Returns `true` if the norm of the vector equals 1, otherwise `false`.
     def normal?(tolerance = T.zero)
       (norm - T.one).abs <= tolerance
     end
 
+    # ---------------------------------------------------------------------------------------
+
     # Returns `true` if the vector is null, otherwise `false`.
     def zero?(tolerance = T.zero)
       norm <= tolerance
     end
+
+    # ---------------------------------------------------------------------------------------
 
     # Returns `true` if all components lie within the specified *bounding_box*, which is expected to be an `Array` of `Range`s, and otherwise `false`.
     def within?(bounding_box)
@@ -299,15 +372,21 @@ module VM
       true
     end
 
+    # ---------------------------------------------------------------------------------------
+
     def as_a(other_type : Tuple{{m}}(U).class) forall U
-      other_type.new(self)
+      other_type.new self
     end
+
+    # ---------------------------------------------------------------------------------------
 
     def to_s(io : IO)
       io << "["
-      @data.join(", ", io)
+      @data.join ", ", io
       io << "]"
     end
+
+    # ---------------------------------------------------------------------------------------
 
     def humanize(io : IO, *args)
       io << "["
@@ -315,27 +394,44 @@ module VM
       io << "]"
     end
 
+    # ---------------------------------------------------------------------------------------
+
     def humanize(*args)
       String.build do |io|
         humanize(io, *args)
       end
     end
 
+    # ---------------------------------------------------------------------------------------
+
+    # Returns an unsafe pointer to this tuple's data.
+    # As all components are contingently stored in a `StaticArray`,
+    # the result of this function can used as-is for interaction with OpenGL.
     def to_unsafe
       @data.to_unsafe
     end
+
   end
 end
+
+# =======================================================================================
+# Convenience "overloads" of tuple functionality in global/superclass scope
+# =======================================================================================
 
 # Returns the euclidean distance between *from* and *to*, i.e. `(from - to).length`.
 def distance(from : VM::Tuple{{m}}, to : VM::Tuple{{m}})
   from.distance_to to
 end
 
+# ---------------------------------------------------------------------------------------
+
 struct Number
+
+  # Multiplies each component of a *tuple* with `self`, and returns the resulting "scaled" tuple.
   def *(tuple : VM::Tuple{{m}}) : VM::Tuple{{m}}
     tuple * self
   end
+
 end
 
 {% end %}

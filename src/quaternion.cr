@@ -56,9 +56,10 @@ module VM
     end
 
     # Constructs a rotation from an *angle* and the *axis* to rotate about.
+    # This function expects *axis* to be a unit vector; if it does not have unit length, the resulting quaternion will not be a unit quaternion and thus not represent a rotation.
     def initialize(axis : Vec3, angle = T.zero)
       half_angle = angle / 2
-      r = axis.map { |e| e * Math.sin(half_angle) }
+      r = axis * Math.sin(half_angle)
       s = Math.cos(half_angle)
       initialize T.new(r[0]), T.new(r[1]), T.new(r[2]), T.new(s)
     end
@@ -73,7 +74,7 @@ module VM
     end
 
     def real : T
-      w
+      T.new w
     end
 
     # =======================================================================================
@@ -107,11 +108,27 @@ module VM
     end
 
     # =======================================================================================
-    # Comparison overload
+    # Comparisons
     # =======================================================================================
 
+    # Returns either `self` or `-self`, one of the two covers in the group S³
+    # of unit quaternions which represent the same rotation, depending on which one lies on the same semisphere as the quaternion *to* which it should be compared.
+    # This function assumes that `self` (and thus `-self`) is a unit quaternion. It is used internally by the implementation of the comparison operator `#<=>`; you can use it in the same spirit whenever you actually want to compare two rotations/attitudes by means of (any of) their quaternion representations.
+    def get_comparable(to other : Quaternion) : self
+      # Heuristically determine whether the components "generally" point into opposed directions or not
+      score = 0
+      4.times do |i|
+        if @data[i].sign == other[i].sign
+          score += 1
+        else
+          score -= 1
+        end
+      end
+      score >= 0 ? self : -self
+    end
+
     def <=>(other : Quaternion)
-      compare = (real.sign == other.real.sign) ? other.@data : (-other).@data
+      compare = other.get_comparable to: self
 
       case (0...4)
       when .all? { |i| @data[i] < compare[i] } then -1
@@ -125,9 +142,9 @@ module VM
     # =======================================================================================
 
     def to_axis_and_angle
-      φ = 2 * Math.acos(w)
-      r = imag.norm
-      {(r.zero? ? imag : imag / r), T.new φ}
+      θ = 2 * Math.atan2(imag.norm, real)
+      ω = θ.zero? ? Vec3(T).zero : imag / Math.sin(θ/2)
+      {ω, T.new θ}
     end
 
     def to_mat3x3

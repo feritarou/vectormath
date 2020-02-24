@@ -46,7 +46,7 @@ Compared with other packages, `vectormath` classifies vectors and matrices by th
 - `Mat3x2(Float64)`
 - `Mat3(Float32)` – which is itself an alias for the quadratic matrix type `Mat3x3(Float32)`.
 
-Objects can be created either through various `new` methods, via bracket macros on the generic types (`Vec3[1, 2, 3]`), or through GLSL-style convenience macros, like in the example at the beginning of this section.
+Objects can be created using `new`, bracket macros on the generic types (e.g., `Vec3[1, 2, 3]`), or through GLSL-style convenience macros, like in the example at the beginning of this section.
 
 ## Development
 

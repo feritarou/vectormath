@@ -45,7 +45,7 @@ module VM
 
   describe "Quaternion({{scalar.id}})" do
     describe "#initialize / #to_axis_and_angle" do
-      v = arbitrary_vec
+      v = arbitrary_unit_vec
       α = arbitrary_angle
       q = typed_quat.new v, α
 
@@ -57,10 +57,13 @@ module VM
 
       it "returns an axis (possibly opposed to the one used for creation) and an angle (possibly different from the one used for creation) from which the original quaternion can be approximately reconstructed" do
         w, β = q.to_axis_and_angle
-        sign = (v.x / w.x).sign
+        score = 0
+        3.times { |i| score += v[i].sign == w[i].sign ? 1 : -1 }
+        sign = score >= 0 ? 1 : -1
         w.should be_close_enough_to sign*v
         r = typed_quat.new w, β
-        r.should be_close(q, (q / 10_000).abs) # expect reduced accuracy after the back-and-forth conversions
+        r.should be_close_enough_to q.get_comparable(to: r)
+        # expect reduced accuracy after the back-and-forth conversions
       end
     end
 
@@ -69,14 +72,12 @@ module VM
 
       it "returns the first quaternion if called with t=0" do
         s = typed_quat.slerp(q, r, 0)
-        sign = (q.x / s.x).sign
-        s.should be_close_enough_to sign*q
+        s.should be_close_enough_to q.get_comparable(to: s)
       end
 
       it "returns the second quaternion if called with t=1" do
         t = typed_quat.slerp(q, r, 1)
-        sign = (r.x / t.x).sign
-        t.should be_close_enough_to sign*r
+        t.should be_close_enough_to r.get_comparable(to: t)
       end
 
       it "gives a sequence of unit quaternions close to each other", tags: "slow" do
@@ -85,7 +86,7 @@ module VM
         first, last = two arbitrary_unit_quat
         q1 = first
         (1..n).each do |k|
-          q2 = typed_quat.slerp(first, last, k*Δ)
+          q2 = typed_quat.slerp(first, last, k*Δ).get_comparable(to: q1)
           q2.should be_close_enough_to q1
           q1 = q2
         end
