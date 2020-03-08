@@ -1,6 +1,7 @@
 # This file comprises various basic extensions of the standard library numeric structs.
 
 require "big"
+require "yaml"
 
 # =======================================================================================
 # Extensions of the Number abstract base struct
@@ -12,6 +13,49 @@ struct Number
     range.covers? self
   end
 end
+
+# =======================================================================================
+# YAML serialization for BigFloats
+# =======================================================================================
+
+def BigFloat.new(ctx : YAML::ParseContext, node : YAML::Nodes::Node)
+  ctx.read_alias(node, BigFloat) do |obj|
+    return obj
+  end
+
+  if node.is_a?(YAML::Nodes::Scalar)
+    value = node.value
+    ctx.record_anchor(node, value)
+    m, e, n = value.partition 'e'
+    l = m.size
+    BigFloat.default_precision = (3.4*l).ceil.to_i
+  	BigFloat.new value
+  else
+    node.raise "Expected BigFloat encoded as String, not #{node.class.name}"
+  end
+end
+
+# =======================================================================================
+# Math functions for BigFloats
+# =======================================================================================
+
+def big_exp(number : BigFloat) : BigFloat
+  div = 0
+  smaller = number.dup
+  exp = Math.exp(smaller)
+  until exp.finite?
+    div += 1
+    smaller /= 2
+    exp = Math.exp(smaller)
+  end
+  res = BigFloat.new(exp)
+  div.times { res *= res }
+  res
+end
+
+# =======================================================================================
+# "Particularized generic" extensions for number types
+# =======================================================================================
 
 {% for scalar_type in %i[Int32 Int64 UInt32 Float32 Float64 BigFloat] %}
 struct {{scalar_type.id}}
