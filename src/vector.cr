@@ -95,15 +95,15 @@ module VM
   {% for letter, type in {:f => Float32, :d => Float64, :b => BigFloat, :i => Int32, :u => UInt32} %}
   alias Vec{{m}}{{letter.id}} = Vec{{m}}({{type}})
 
-  macro vec{{m}}{{letter.id}}(*args)
-    VM::Vec{{m}}({{type}}).new(\{{*args}})
-  end
-
   # A convenience constructor macro to allow GLSL-like expressions of the form `v = vec{{m}}{{letter.id}}(...)`.
   macro vec{{m}}{{letter.id}}(*args)
     VM::Vec{{m}}{{letter.id}}.new(*\{{args}})
   end
   {% end %}
+
+  macro vec{{m}}(*args)
+    VM::Vec{{m}}f.new(*\{{args}})
+  end
 
 end
 

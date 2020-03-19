@@ -60,10 +60,10 @@ module VM
     {% for k in 1...m %}
     # Creates a quadratic matrix from another one of dimension {{k}}.
     # The surplus components will be filled with the respective entries of the {{m}}-dimensional `identity` matrix.
-    def initialize(smaller : Mat{{k}}x{{k}}(T))
+    def initialize(smaller : Mat{{k}}x{{k}})
       initialize do |i, j|
         if i < {{k}} && j < {{k}}
-          smaller[i, j]
+          T.new smaller[i, j]
         else
           i==j ? T.one : T.zero
         end
@@ -232,9 +232,13 @@ module VM
   alias Mat{{m}}{{letter.id}} = Mat{{m}}({{type}})
 
   macro mat{{m}}{{letter.id}}(*args)
-    VM::Mat{{m}}({{type}}).new(\{{*args}})
+    VM::Mat{{m}}{{letter.id}}.new(\{{*args}})
   end
   {% end %}
+
+  macro mat{{m}}(*args)
+    VM::Mat{{m}}f.new(\{{*args}})
+  end
 
   {% end %} # rows (m)
 
