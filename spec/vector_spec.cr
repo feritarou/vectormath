@@ -75,27 +75,20 @@ module VM
     end
     {% end %}
 
-    describe "#project_on!" do
-      it "computes the parallel projection of self onto one or more axis-aligned unit vectors" do
-        a = arbitrary_vec
-        ba = BitArray.new {{m}}
-        guaranteed = RNG.rand 0...{{m}}
-        ba[guaranteed] = true
-        {{m}}.times { |i| ba[i] = RNG.next_bool unless i == guaranteed }
-        {{m}}.times do |i|
-          if ba[i]
-            unit = typed_vec.new { |c| c == i ? 1 : 0 }
-            a.project_on! unit
-          end
-        end
-        a.components.each_with_index { |c, i| c.should eq 0 unless ba[i] }
-      end
-
-      it "projects self onto one or more vectors" do
+    describe "#project_on" do
+      it "returns the multiple of 'other' with the shortest distance to 'self'" do
         a, b = two arbitrary_vec
         p = a.project_on b
-        a.project_on! b
-        a.should eq p
+        other_multiples = StaticArray(Vec{{m}}({{scalar.id}}), 20).new do
+          s = arbitrary_scalar
+          r = s * b
+          until r.finite?
+            s /= 2
+            r = s * b
+          end
+          r
+        end
+        other_multiples.each { |v| a.distance_to(v).should be >= a.distance_to(p) }
       end
     end
 

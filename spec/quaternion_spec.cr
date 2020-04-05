@@ -156,16 +156,20 @@ module VM
       end
     end
 
-    describe "#to_mat3x3" do
+    describe "#to_mat3" do
       it "returns a rotation matrix that has equivalent effects on vectors" do
         v = arbitrary_vec
         q = arbitrary_unit_quat
         w1 = q*v
         if w1.finite?
-          m = q.to_mat3x3
-          w2 = m*v
-          if w2.finite?
-            w2.should be_close_enough_to w1
+          [MatrixLayout::RowMajor, MatrixLayout::ColumnMajor]
+          .each do |layout|
+            VM.matrix_layout = layout
+            m = q.to_mat3
+            w2 = m*v
+            if w2.finite?
+              w2.should be_close_enough_to w1
+            end
           end
         end
       end

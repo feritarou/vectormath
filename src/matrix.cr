@@ -3,10 +3,45 @@ require "./vector"
 
 module VM
 
+  # :nodoc:
+  enum MatrixLayout
+    RowMajor
+    ColumnMajor
+  end
+
+  # :nodoc:
+  class_property matrix_layout = MatrixLayout::RowMajor
+
   {% for m in 1..VM::SUPPORTED_DIMENSIONS %}
   {% for n in 1..VM::SUPPORTED_DIMENSIONS %}
 
-  # A generic matrix struct, built on top of Tuple{{m*n}}(T) and enriched by some vector-specific operations.
+  # A generic struct for {{m}}x{{n}} matrices.
+  #
+  # Built on top of Tuple{{m*n}}(T) and its component-wise functions,
+  # the `Mat` structs also provide some more specific matrix operations
+  # like matrix-vector and matrix-matrix multiplication.
+  #
+  # As a consequence of deriving from `VM::Tuple`, the {{m*n}} components of
+  # a {{m}}x{{n}} matrix are stored linearly inside a single flat `StaticArray`.
+  # This allows you to choose between *row major* and *column major* storage layouts
+  # by setting the package-global `VM.matrix_layout` property. Setting this property
+  # will affect all subsequent component accesses, as long as index ordering is relevant
+  # to them, as well as the way a matrix is initialized from a list of its components.
+  # Row-major storage layout means the components of a matrix are grouped by row and
+  # stored in memory row by row, so that the matrix
+  # ```
+  # [ 1  2  3 ]
+  # [ 4  5  6 ]
+  # ```
+  # would be represented as [1, 2, 3, 4, 5, 6] in memory. Note that row boundaries are not
+  # present in this representation; instead they are reconstructed on the fly upon component
+  # access. Column-major storage layout, on the other hand, would result in a representation
+  # of [1, 4, 2, 5, 3, 6], and the above matrix could be directly created from this list if
+  # `VM.matrix_layout` is set to `ColumnMajor` beforehand.
+  #
+  # Both representations are equal in terms of results of operations,
+  # but storing matrix data in a particular order can be beneficial e.g. when interacting with
+  # other apps or libraries or when uploading matrices to the GPU.
   struct Mat{{m}}x{{n}}(T)
     include Tuple{{m*n}}(T)
 
@@ -22,25 +57,45 @@ module VM
     # Constructors
     # =======================================================================================
 
-    # Creates a matrix by yielding {col, row} tuples to a block.
+    # Creates a matrix by yielding `{row, column}` tuples to a block.
     def initialize(&block)
-      @data = StaticArray(T, {{m*n}}).new { |i| T.new(yield i.divmod({{n}})) }
+      if VM.matrix_layout.row_major?
+        @data = StaticArray(T, {{m*n}}).new { |i| T.new(yield i.divmod({{n}})) }
+      else
+        @data = StaticArray(T, {{m*n}}).new do |i|
+          a,b = i.divmod({{m}})
+          T.new(yield b,a)
+        end
+      end
     end
 
-    {% if m == n %} # Quadratic matrices
+    # ---------------------------------------------------------------------------------------
+
+    {% if m == n %} # Special constructors for quadratic matrices
 
     # The identity matrix.
     def self.identity
       new { |i, j| i == j ? T.one : T.zero }
     end
 
+    # ---------------------------------------------------------------------------------------
+
     {% if m == 2 %}
     # Creates a matrix that will rotate the 2D-plane by some *angle*.
     def self.rotation(angle θ)
-      self.new( Math.cos(θ), -Math.sin(θ), \
-                Math.sin(θ),  Math.cos(θ)  )
+      if VM.matrix_layout.row_major?
+        self.new( Math.cos(θ),   -Math.sin(θ),
+                  Math.sin(θ),    Math.cos(θ)  )
+      else
+        self.new( Math.cos(θ),
+                  Math.sin(θ),
+                                 -Math.sin(θ),
+                                  Math.cos(θ)  )
+      end
     end
     {% end %}
+
+    # ---------------------------------------------------------------------------------------
 
     {% if m > 1 %}
     # Creates a translation matrix from a {{m-1}}-vector.
@@ -57,6 +112,8 @@ module VM
     end
     {% end %}
 
+    # ---------------------------------------------------------------------------------------
+
     {% for k in 1...m %}
     # Creates a quadratic matrix from another one of dimension {{k}}.
     # The surplus components will be filled with the respective entries of the {{m}}-dimensional `identity` matrix.
@@ -70,6 +127,8 @@ module VM
       end
     end
     {% end %}
+
+    # ---------------------------------------------------------------------------------------
 
     {% if m == 4 %}
     # Returns a 4x4 matrix that, when multiplied against 4-vectors, causes a "perspective projection" distortion.
@@ -92,11 +151,12 @@ module VM
         else T.zero
         end
       end
-      result
     end
     {% end %}
 
-    {% end %}
+    # ---------------------------------------------------------------------------------------
+
+    {% end %} # End special constructors for quadratic matrices
 
     # =======================================================================================
     # Component access
@@ -104,34 +164,40 @@ module VM
 
     # Returns the component at the *i*-th row and *j*-th column.
     def [](i, j) : T
-      @data[{{n}}*i + j]
+      if VM.matrix_layout.row_major?
+        @data[{{n}}*i + j]
+      else
+        @data[{{m}}*j + i]
+      end
     end
 
     # Sets the component at the *i*-th row and *j*-th column to *value*.
     def []=(i, j, value : T)
-      @data[{{n}}*i + j] = value
+      if VM.matrix_layout.row_major?
+        @data[{{n}}*i + j] = value
+      else
+        @data[{{m}}*j + i] = value
+      end
     end
 
     # Returns the *i*-th row as a {{n}}-vector.
-    def row(i) : Vec{{n}}(T)
+    def row(i)
       Vec{{n}}(T).new { |j| self.[](i, j) }
     end
 
     # Returns the *j*-th column as a {{m}}-vector.
-    def column(j) : Vec{{m}}(T)
+    def column(j)
       Vec{{m}}(T).new { |i| self.[](i, j) }
     end
 
     # Returns a `StaticArray` of {{n}}-vectors containing all rows in the matrix.
     def rows
-      StaticArray(Vec{{n}}(T), {{m}}).new \
-      { |i| row(i) }
+      StaticArray(Vec{{n}}(T), {{m}}).new { |i| row(i) }
     end
 
     # Returns a `StaticArray` of {{m}}-vectors containing all columns in the matrix.
     def columns
-      StaticArray(Vec{{m}}(T), {{n}}).new \
-      { |j| column(j) }
+      StaticArray(Vec{{m}}(T), {{n}}).new { |j| column(j) }
     end
 
     # =======================================================================================
@@ -169,20 +235,34 @@ module VM
     def *(other : Mat{{n}}x{{o}})
       Mat{{m}}x{{o}}(T).new do |i, j|
         sum = T.zero
-        {{n}}.times do |k|
-          sum += @data[{{n}}*i + k] * other.@data[{{o}}*k + j]
+        if VM.matrix_layout.row_major?
+          {{n}}.times do |k|
+            sum += @data[{{n}}*i + k] * other.@data[{{o}}*k + j]
+          end
+        else
+          {{n}}.times do |k|
+            sum += @data[{{m}}*k + i] * other.@data[{{n}}*j + k]
+          end
         end
         sum
       end
     end
     {% end %}
 
+    # ---------------------------------------------------------------------------------------
+
     # Matrix-vector multiplication
     def *(vector : Vec{{n}})
       Vec{{m}}(T).new do |i|
         sum = T.zero
-        {{n}}.times do |k|
-          sum += @data[{{n}}*i + k] * vector[k]
+        if VM.matrix_layout.row_major?
+          {{n}}.times do |k|
+            sum += @data[{{n}}*i + k] * vector[k]
+          end
+        else
+          {{n}}.times do |k|
+            sum += @data[{{m}}*k + i] * vector[k]
+          end
         end
         sum
       end

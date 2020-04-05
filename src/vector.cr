@@ -46,8 +46,13 @@ module VM
     # Returns the parallel projection of `self` onto one or more *other_vectors*.
     def project_on(*other_vectors)
       other_vectors.sum do |v|
-        n = v.normalize
-        (self.dot n) * n
+        r = (self.dot v) / v.abs2 * v
+        if r.finite?
+          r
+        else
+          n = v.normalize
+          (self.dot n) * n
+        end
       end
     end
 

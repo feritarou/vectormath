@@ -115,7 +115,7 @@ module VM
 
     # Sets the (i+1)-th component of the {{m}}-tuple.
     def []=(i, value)
-      @data[i] = value
+      @data[i] = T.new value
     end
 
     # ---------------------------------------------------------------------------------------
@@ -139,7 +139,7 @@ module VM
 
         # Sets the {{c1.id}} (={{i1+1}}{% if i1 == 0 %}st{% elsif i1 == 1 %}nd{% elsif i1 == 2 %}rd{% else %}th{% end %}) component of the tuple.
         def {{c1.id}}=(value)
-          @data[{{i1}}] = value
+          @data[{{i1}}] = T.new value
         end
 
         {% for c2, i2 in %w(x y z w) %}
