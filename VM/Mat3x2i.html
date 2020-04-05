@@ -1,0 +1,992 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="generator" content="Crystal Docs 0.32.1">
+
+<link href="../css/style.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="../js/doc.js"></script>
+
+<svg class="hidden">
+  <symbol id="octicon-link" viewBox="0 0 16 16">
+    <path fill-rule="evenodd" d="M4 9h1v1H4c-1.5 0-3-1.69-3-3.5S2.55 3 4 3h4c1.45 0 3 1.69 3 3.5 0 1.41-.91 2.72-2 3.25V8.59c.58-.45 1-1.27 1-2.09C10 5.22 8.98 4 8 4H4c-.98 0-2 1.22-2 2.5S3 9 4 9zm9-3h-1v1h1c1 0 2 1.22 2 2.5S13.98 12 13 12H9c-.98 0-2-1.22-2-2.5 0-.83.42-1.64 1-2.09V6.25c-1.09.53-2 1.84-2 3.25C6 11.31 7.55 13 9 13h4c1.45 0 3-1.69 3-3.5S14.5 6 13 6z"></path>
+  </symbol>
+</svg>
+
+  <meta id="repository-name" content="github.com/mathalaxy/vectormath">
+  <title>VM::Mat3x2i - github.com/mathalaxy/vectormath</title>
+  <script type="text/javascript">
+    CrystalDoc.base_path = "../";
+  </script>
+</head>
+<body>
+
+<div class="sidebar">
+  <div class="sidebar-header">
+    <div class="search-box">
+      <input type="search" class="search-input" placeholder="Search..." spellcheck="false" aria-label="Search">
+    </div>
+
+    <div class="repository-links">
+      <a href="../index.html">README</a>
+    </div>
+  </div>
+
+  <div class="search-results" class="hidden">
+    <ul class="search-list"></ul>
+  </div>
+
+  <div class="types-list">
+    <ul>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/toplevel" data-name="top level namespace">
+      <a href="../toplevel.html">Top Level Namespace</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/BigFloat" data-name="bigfloat">
+      <a href="../BigFloat.html">BigFloat</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/Float32" data-name="float32">
+      <a href="../Float32.html">Float32</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/Float64" data-name="float64">
+      <a href="../Float64.html">Float64</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/Int32" data-name="int32">
+      <a href="../Int32.html">Int32</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/Int64" data-name="int64">
+      <a href="../Int64.html">Int64</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/Number" data-name="number">
+      <a href="../Number.html">Number</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/UInt32" data-name="uint32">
+      <a href="../UInt32.html">UInt32</a>
+      
+    </li>
+  
+  <li class="parent open current" data-id="github.com/mathalaxy/vectormath/VM" data-name="vm">
+      <a href="../VM.html">VM</a>
+      
+        <ul>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1" data-name="vm::mat1">
+      <a href="../VM/Mat1.html">Mat1</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1b" data-name="vm::mat1b">
+      <a href="../VM/Mat1b.html">Mat1b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1d" data-name="vm::mat1d">
+      <a href="../VM/Mat1d.html">Mat1d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1f" data-name="vm::mat1f">
+      <a href="../VM/Mat1f.html">Mat1f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1i" data-name="vm::mat1i">
+      <a href="../VM/Mat1i.html">Mat1i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1u" data-name="vm::mat1u">
+      <a href="../VM/Mat1u.html">Mat1u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x1" data-name="vm::mat1x1(t)">
+      <a href="../VM/Mat1x1.html">Mat1x1</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x1b" data-name="vm::mat1x1b">
+      <a href="../VM/Mat1x1b.html">Mat1x1b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x1d" data-name="vm::mat1x1d">
+      <a href="../VM/Mat1x1d.html">Mat1x1d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x1f" data-name="vm::mat1x1f">
+      <a href="../VM/Mat1x1f.html">Mat1x1f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x1i" data-name="vm::mat1x1i">
+      <a href="../VM/Mat1x1i.html">Mat1x1i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x1u" data-name="vm::mat1x1u">
+      <a href="../VM/Mat1x1u.html">Mat1x1u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x2" data-name="vm::mat1x2(t)">
+      <a href="../VM/Mat1x2.html">Mat1x2</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x2b" data-name="vm::mat1x2b">
+      <a href="../VM/Mat1x2b.html">Mat1x2b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x2d" data-name="vm::mat1x2d">
+      <a href="../VM/Mat1x2d.html">Mat1x2d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x2f" data-name="vm::mat1x2f">
+      <a href="../VM/Mat1x2f.html">Mat1x2f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x2i" data-name="vm::mat1x2i">
+      <a href="../VM/Mat1x2i.html">Mat1x2i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x2u" data-name="vm::mat1x2u">
+      <a href="../VM/Mat1x2u.html">Mat1x2u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x3" data-name="vm::mat1x3(t)">
+      <a href="../VM/Mat1x3.html">Mat1x3</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x3b" data-name="vm::mat1x3b">
+      <a href="../VM/Mat1x3b.html">Mat1x3b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x3d" data-name="vm::mat1x3d">
+      <a href="../VM/Mat1x3d.html">Mat1x3d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x3f" data-name="vm::mat1x3f">
+      <a href="../VM/Mat1x3f.html">Mat1x3f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x3i" data-name="vm::mat1x3i">
+      <a href="../VM/Mat1x3i.html">Mat1x3i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x3u" data-name="vm::mat1x3u">
+      <a href="../VM/Mat1x3u.html">Mat1x3u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x4" data-name="vm::mat1x4(t)">
+      <a href="../VM/Mat1x4.html">Mat1x4</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x4b" data-name="vm::mat1x4b">
+      <a href="../VM/Mat1x4b.html">Mat1x4b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x4d" data-name="vm::mat1x4d">
+      <a href="../VM/Mat1x4d.html">Mat1x4d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x4f" data-name="vm::mat1x4f">
+      <a href="../VM/Mat1x4f.html">Mat1x4f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x4i" data-name="vm::mat1x4i">
+      <a href="../VM/Mat1x4i.html">Mat1x4i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat1x4u" data-name="vm::mat1x4u">
+      <a href="../VM/Mat1x4u.html">Mat1x4u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2" data-name="vm::mat2">
+      <a href="../VM/Mat2.html">Mat2</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2b" data-name="vm::mat2b">
+      <a href="../VM/Mat2b.html">Mat2b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2d" data-name="vm::mat2d">
+      <a href="../VM/Mat2d.html">Mat2d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2f" data-name="vm::mat2f">
+      <a href="../VM/Mat2f.html">Mat2f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2i" data-name="vm::mat2i">
+      <a href="../VM/Mat2i.html">Mat2i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2u" data-name="vm::mat2u">
+      <a href="../VM/Mat2u.html">Mat2u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x1" data-name="vm::mat2x1(t)">
+      <a href="../VM/Mat2x1.html">Mat2x1</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x1b" data-name="vm::mat2x1b">
+      <a href="../VM/Mat2x1b.html">Mat2x1b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x1d" data-name="vm::mat2x1d">
+      <a href="../VM/Mat2x1d.html">Mat2x1d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x1f" data-name="vm::mat2x1f">
+      <a href="../VM/Mat2x1f.html">Mat2x1f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x1i" data-name="vm::mat2x1i">
+      <a href="../VM/Mat2x1i.html">Mat2x1i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x1u" data-name="vm::mat2x1u">
+      <a href="../VM/Mat2x1u.html">Mat2x1u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x2" data-name="vm::mat2x2(t)">
+      <a href="../VM/Mat2x2.html">Mat2x2</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x2b" data-name="vm::mat2x2b">
+      <a href="../VM/Mat2x2b.html">Mat2x2b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x2d" data-name="vm::mat2x2d">
+      <a href="../VM/Mat2x2d.html">Mat2x2d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x2f" data-name="vm::mat2x2f">
+      <a href="../VM/Mat2x2f.html">Mat2x2f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x2i" data-name="vm::mat2x2i">
+      <a href="../VM/Mat2x2i.html">Mat2x2i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x2u" data-name="vm::mat2x2u">
+      <a href="../VM/Mat2x2u.html">Mat2x2u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x3" data-name="vm::mat2x3(t)">
+      <a href="../VM/Mat2x3.html">Mat2x3</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x3b" data-name="vm::mat2x3b">
+      <a href="../VM/Mat2x3b.html">Mat2x3b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x3d" data-name="vm::mat2x3d">
+      <a href="../VM/Mat2x3d.html">Mat2x3d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x3f" data-name="vm::mat2x3f">
+      <a href="../VM/Mat2x3f.html">Mat2x3f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x3i" data-name="vm::mat2x3i">
+      <a href="../VM/Mat2x3i.html">Mat2x3i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x3u" data-name="vm::mat2x3u">
+      <a href="../VM/Mat2x3u.html">Mat2x3u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x4" data-name="vm::mat2x4(t)">
+      <a href="../VM/Mat2x4.html">Mat2x4</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x4b" data-name="vm::mat2x4b">
+      <a href="../VM/Mat2x4b.html">Mat2x4b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x4d" data-name="vm::mat2x4d">
+      <a href="../VM/Mat2x4d.html">Mat2x4d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x4f" data-name="vm::mat2x4f">
+      <a href="../VM/Mat2x4f.html">Mat2x4f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x4i" data-name="vm::mat2x4i">
+      <a href="../VM/Mat2x4i.html">Mat2x4i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat2x4u" data-name="vm::mat2x4u">
+      <a href="../VM/Mat2x4u.html">Mat2x4u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3" data-name="vm::mat3">
+      <a href="../VM/Mat3.html">Mat3</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3b" data-name="vm::mat3b">
+      <a href="../VM/Mat3b.html">Mat3b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3d" data-name="vm::mat3d">
+      <a href="../VM/Mat3d.html">Mat3d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3f" data-name="vm::mat3f">
+      <a href="../VM/Mat3f.html">Mat3f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3i" data-name="vm::mat3i">
+      <a href="../VM/Mat3i.html">Mat3i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3u" data-name="vm::mat3u">
+      <a href="../VM/Mat3u.html">Mat3u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x1" data-name="vm::mat3x1(t)">
+      <a href="../VM/Mat3x1.html">Mat3x1</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x1b" data-name="vm::mat3x1b">
+      <a href="../VM/Mat3x1b.html">Mat3x1b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x1d" data-name="vm::mat3x1d">
+      <a href="../VM/Mat3x1d.html">Mat3x1d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x1f" data-name="vm::mat3x1f">
+      <a href="../VM/Mat3x1f.html">Mat3x1f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x1i" data-name="vm::mat3x1i">
+      <a href="../VM/Mat3x1i.html">Mat3x1i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x1u" data-name="vm::mat3x1u">
+      <a href="../VM/Mat3x1u.html">Mat3x1u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x2" data-name="vm::mat3x2(t)">
+      <a href="../VM/Mat3x2.html">Mat3x2</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x2b" data-name="vm::mat3x2b">
+      <a href="../VM/Mat3x2b.html">Mat3x2b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x2d" data-name="vm::mat3x2d">
+      <a href="../VM/Mat3x2d.html">Mat3x2d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x2f" data-name="vm::mat3x2f">
+      <a href="../VM/Mat3x2f.html">Mat3x2f</a>
+      
+    </li>
+  
+  <li class=" current" data-id="github.com/mathalaxy/vectormath/VM/Mat3x2i" data-name="vm::mat3x2i">
+      <a href="../VM/Mat3x2i.html">Mat3x2i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x2u" data-name="vm::mat3x2u">
+      <a href="../VM/Mat3x2u.html">Mat3x2u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x3" data-name="vm::mat3x3(t)">
+      <a href="../VM/Mat3x3.html">Mat3x3</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x3b" data-name="vm::mat3x3b">
+      <a href="../VM/Mat3x3b.html">Mat3x3b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x3d" data-name="vm::mat3x3d">
+      <a href="../VM/Mat3x3d.html">Mat3x3d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x3f" data-name="vm::mat3x3f">
+      <a href="../VM/Mat3x3f.html">Mat3x3f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x3i" data-name="vm::mat3x3i">
+      <a href="../VM/Mat3x3i.html">Mat3x3i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x3u" data-name="vm::mat3x3u">
+      <a href="../VM/Mat3x3u.html">Mat3x3u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x4" data-name="vm::mat3x4(t)">
+      <a href="../VM/Mat3x4.html">Mat3x4</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x4b" data-name="vm::mat3x4b">
+      <a href="../VM/Mat3x4b.html">Mat3x4b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x4d" data-name="vm::mat3x4d">
+      <a href="../VM/Mat3x4d.html">Mat3x4d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x4f" data-name="vm::mat3x4f">
+      <a href="../VM/Mat3x4f.html">Mat3x4f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x4i" data-name="vm::mat3x4i">
+      <a href="../VM/Mat3x4i.html">Mat3x4i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat3x4u" data-name="vm::mat3x4u">
+      <a href="../VM/Mat3x4u.html">Mat3x4u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4" data-name="vm::mat4">
+      <a href="../VM/Mat4.html">Mat4</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4b" data-name="vm::mat4b">
+      <a href="../VM/Mat4b.html">Mat4b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4d" data-name="vm::mat4d">
+      <a href="../VM/Mat4d.html">Mat4d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4f" data-name="vm::mat4f">
+      <a href="../VM/Mat4f.html">Mat4f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4i" data-name="vm::mat4i">
+      <a href="../VM/Mat4i.html">Mat4i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4u" data-name="vm::mat4u">
+      <a href="../VM/Mat4u.html">Mat4u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x1" data-name="vm::mat4x1(t)">
+      <a href="../VM/Mat4x1.html">Mat4x1</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x1b" data-name="vm::mat4x1b">
+      <a href="../VM/Mat4x1b.html">Mat4x1b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x1d" data-name="vm::mat4x1d">
+      <a href="../VM/Mat4x1d.html">Mat4x1d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x1f" data-name="vm::mat4x1f">
+      <a href="../VM/Mat4x1f.html">Mat4x1f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x1i" data-name="vm::mat4x1i">
+      <a href="../VM/Mat4x1i.html">Mat4x1i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x1u" data-name="vm::mat4x1u">
+      <a href="../VM/Mat4x1u.html">Mat4x1u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x2" data-name="vm::mat4x2(t)">
+      <a href="../VM/Mat4x2.html">Mat4x2</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x2b" data-name="vm::mat4x2b">
+      <a href="../VM/Mat4x2b.html">Mat4x2b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x2d" data-name="vm::mat4x2d">
+      <a href="../VM/Mat4x2d.html">Mat4x2d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x2f" data-name="vm::mat4x2f">
+      <a href="../VM/Mat4x2f.html">Mat4x2f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x2i" data-name="vm::mat4x2i">
+      <a href="../VM/Mat4x2i.html">Mat4x2i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x2u" data-name="vm::mat4x2u">
+      <a href="../VM/Mat4x2u.html">Mat4x2u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x3" data-name="vm::mat4x3(t)">
+      <a href="../VM/Mat4x3.html">Mat4x3</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x3b" data-name="vm::mat4x3b">
+      <a href="../VM/Mat4x3b.html">Mat4x3b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x3d" data-name="vm::mat4x3d">
+      <a href="../VM/Mat4x3d.html">Mat4x3d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x3f" data-name="vm::mat4x3f">
+      <a href="../VM/Mat4x3f.html">Mat4x3f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x3i" data-name="vm::mat4x3i">
+      <a href="../VM/Mat4x3i.html">Mat4x3i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x3u" data-name="vm::mat4x3u">
+      <a href="../VM/Mat4x3u.html">Mat4x3u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x4" data-name="vm::mat4x4(t)">
+      <a href="../VM/Mat4x4.html">Mat4x4</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x4b" data-name="vm::mat4x4b">
+      <a href="../VM/Mat4x4b.html">Mat4x4b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x4d" data-name="vm::mat4x4d">
+      <a href="../VM/Mat4x4d.html">Mat4x4d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x4f" data-name="vm::mat4x4f">
+      <a href="../VM/Mat4x4f.html">Mat4x4f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x4i" data-name="vm::mat4x4i">
+      <a href="../VM/Mat4x4i.html">Mat4x4i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Mat4x4u" data-name="vm::mat4x4u">
+      <a href="../VM/Mat4x4u.html">Mat4x4u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Orientation" data-name="vm::orientation">
+      <a href="../VM/Orientation.html">Orientation</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Quaternion" data-name="vm::quaternion(t)">
+      <a href="../VM/Quaternion.html">Quaternion</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Rotation" data-name="vm::rotation">
+      <a href="../VM/Rotation.html">Rotation</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple1" data-name="vm::tuple1(t)">
+      <a href="../VM/Tuple1.html">Tuple1</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple10" data-name="vm::tuple10(t)">
+      <a href="../VM/Tuple10.html">Tuple10</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple11" data-name="vm::tuple11(t)">
+      <a href="../VM/Tuple11.html">Tuple11</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple12" data-name="vm::tuple12(t)">
+      <a href="../VM/Tuple12.html">Tuple12</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple13" data-name="vm::tuple13(t)">
+      <a href="../VM/Tuple13.html">Tuple13</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple14" data-name="vm::tuple14(t)">
+      <a href="../VM/Tuple14.html">Tuple14</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple15" data-name="vm::tuple15(t)">
+      <a href="../VM/Tuple15.html">Tuple15</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple16" data-name="vm::tuple16(t)">
+      <a href="../VM/Tuple16.html">Tuple16</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple2" data-name="vm::tuple2(t)">
+      <a href="../VM/Tuple2.html">Tuple2</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple3" data-name="vm::tuple3(t)">
+      <a href="../VM/Tuple3.html">Tuple3</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple4" data-name="vm::tuple4(t)">
+      <a href="../VM/Tuple4.html">Tuple4</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple5" data-name="vm::tuple5(t)">
+      <a href="../VM/Tuple5.html">Tuple5</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple6" data-name="vm::tuple6(t)">
+      <a href="../VM/Tuple6.html">Tuple6</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple7" data-name="vm::tuple7(t)">
+      <a href="../VM/Tuple7.html">Tuple7</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple8" data-name="vm::tuple8(t)">
+      <a href="../VM/Tuple8.html">Tuple8</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Tuple9" data-name="vm::tuple9(t)">
+      <a href="../VM/Tuple9.html">Tuple9</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec1" data-name="vm::vec1(t)">
+      <a href="../VM/Vec1.html">Vec1</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec1b" data-name="vm::vec1b">
+      <a href="../VM/Vec1b.html">Vec1b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec1d" data-name="vm::vec1d">
+      <a href="../VM/Vec1d.html">Vec1d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec1f" data-name="vm::vec1f">
+      <a href="../VM/Vec1f.html">Vec1f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec1i" data-name="vm::vec1i">
+      <a href="../VM/Vec1i.html">Vec1i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec1u" data-name="vm::vec1u">
+      <a href="../VM/Vec1u.html">Vec1u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec2" data-name="vm::vec2(t)">
+      <a href="../VM/Vec2.html">Vec2</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec2b" data-name="vm::vec2b">
+      <a href="../VM/Vec2b.html">Vec2b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec2d" data-name="vm::vec2d">
+      <a href="../VM/Vec2d.html">Vec2d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec2f" data-name="vm::vec2f">
+      <a href="../VM/Vec2f.html">Vec2f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec2i" data-name="vm::vec2i">
+      <a href="../VM/Vec2i.html">Vec2i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec2u" data-name="vm::vec2u">
+      <a href="../VM/Vec2u.html">Vec2u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec3" data-name="vm::vec3(t)">
+      <a href="../VM/Vec3.html">Vec3</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec3b" data-name="vm::vec3b">
+      <a href="../VM/Vec3b.html">Vec3b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec3d" data-name="vm::vec3d">
+      <a href="../VM/Vec3d.html">Vec3d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec3f" data-name="vm::vec3f">
+      <a href="../VM/Vec3f.html">Vec3f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec3i" data-name="vm::vec3i">
+      <a href="../VM/Vec3i.html">Vec3i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec3u" data-name="vm::vec3u">
+      <a href="../VM/Vec3u.html">Vec3u</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec4" data-name="vm::vec4(t)">
+      <a href="../VM/Vec4.html">Vec4</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec4b" data-name="vm::vec4b">
+      <a href="../VM/Vec4b.html">Vec4b</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec4d" data-name="vm::vec4d">
+      <a href="../VM/Vec4d.html">Vec4d</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec4f" data-name="vm::vec4f">
+      <a href="../VM/Vec4f.html">Vec4f</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec4i" data-name="vm::vec4i">
+      <a href="../VM/Vec4i.html">Vec4i</a>
+      
+    </li>
+  
+  <li class=" " data-id="github.com/mathalaxy/vectormath/VM/Vec4u" data-name="vm::vec4u">
+      <a href="../VM/Vec4u.html">Vec4u</a>
+      
+    </li>
+  
+</ul>
+
+      
+    </li>
+  
+</ul>
+
+  </div>
+</div>
+
+
+<div class="main-content">
+<h1 class="type-name">
+
+  <span class="kind">alias</span> VM::Mat3x2i
+
+</h1>
+
+
+
+
+
+
+
+  <h2>
+    <a id="alias-definition" class="anchor" href="#alias-definition">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Alias Definition
+  </h2>
+  <code><a href="../VM/Mat3x2.html">VM::Mat3x2</a>(<a href="../Int32.html">Int32</a>)</code>
+
+
+
+
+
+
+
+
+
+
+
+
+  <h2>
+    <a id="defined-in" class="anchor" href="#defined-in">
+  <svg class="octicon-link" aria-hidden="true">
+    <use href="#octicon-link"/>
+  </svg>
+</a>
+    Defined in:
+  </h2>
+  
+    
+      <a href="https://github.com/mathalaxy/vectormath/blob/a2d49297f5524f0913cacf443f718b91a4cc4748/src/matrix.cr#L15" target="_blank">
+        matrix.cr
+      </a>
+    
+    <br/>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="methods-inherited">
+  
+</div>
+
+
+
+
+
+
+
+
+
+</div>
+
+</body>
+</html>
